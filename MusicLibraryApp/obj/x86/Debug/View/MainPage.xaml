@@ -1,0 +1,248 @@
+﻿<Page x:ConnectionId='1'
+    x:Class="MusicLibraryApp.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MusicLibraryApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local1="using:MusicLibraryApp.Model"
+    
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+
+        <CollectionViewSource x:ConnectionId='2'  Source="{Binding Albums}" x:Name="albumsCVS" IsSourceGrouped="true"/>
+        <CollectionViewSource x:ConnectionId='3'  Source="{Binding Artists}" x:Name="artistsCVS" IsSourceGrouped="true"/>
+        
+        <Style x:Key="AlbumGroupHeaderContainerStyle" TargetType="ListViewHeaderItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        </Style>
+
+        <DataTemplate x:Key="AlbumGroupHeaderTemplate">
+            <Border Margin="0,0,0,0" >
+                <TextBlock Text="{Binding Key}" Margin="9.6,0,0,4.8" Style="{StaticResource SubtitleTextBlockStyle}" Foreground="Black" VerticalAlignment="Center" />
+            </Border>
+        </DataTemplate>
+        <DataTemplate x:Key="SongTemplate">
+            <Grid Name ="GridSongTemplate "  >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="10*" />
+                    <ColumnDefinition Width="*" />
+                  
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                <!--<Button  Name="playBtn"  Grid.Column="1" FontFamily="Segoe MDL2 Assets" FontSize="20"  Content="&#xE102;" Background="Transparent"></Button>
+                <Button Name="AddToPlaylistBtn" Grid.Column="0" FontFamily="Segoe MDL2 Assets"  FontSize="20"  Content="&#59152;" Background="Transparent" />-->
+                </StackPanel>
+                <Border Width="56" Height="56"  >
+                    <Image Grid.Column="0" Source="{Binding CoverImage}" Stretch="UniformToFill"/>
+                </Border>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Title}" Style="{StaticResource BodyTextBlockStyle}" TextWrapping="NoWrap" Margin="9.6,0"/>
+                    <TextBlock Text="{Binding Artist}" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="NoWrap" Margin="9.6,0"/>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+
+        <SolidColorBrush x:Key="MyTransparentBackgroundLightGray" Color="LightGray" Opacity="0.3" />
+        <SolidColorBrush x:Key="MyTransparentBackgroundWhite" Color="White" Opacity="0.0" />
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" ></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="100"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <SplitView x:ConnectionId='4' Grid.Row="0" Grid.RowSpan="2" x:Name="MySplitView" DisplayMode="CompactOverlay"  IsPaneOpen="False" 
+               CompactPaneLength="50" OpenPaneLength="220"                                       Background="{StaticResource MyTransparentBackgroundWhite}">
+            <SplitView.Pane >
+                <StackPanel Background="Transparent">
+                    <Button x:ConnectionId='7' x:Name="HamburgerButton" FontFamily="Segoe MDL2 Assets" Content="&#xE700;"
+                    Width="50" Height="50"  BorderThickness="0" Background="Transparent"                              />
+
+                    <StackPanel Orientation="Horizontal">
+
+                        <Button x:ConnectionId='14' x:Name="Search" FontFamily="Segoe MDL2 Assets" Content="&#59166;"
+                        Width="50" Height="50" Background="Transparent"                               />
+
+                        <AutoSuggestBox x:ConnectionId='15' Name="SearchAutoSuggestBox"
+                            PlaceholderText="Search for songs"  FontSize="11" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0,10,10"
+                            Width="200" Height="30"
+                            QueryIcon="Find"
+                           
+                                                                                  Background="White" />
+                    </StackPanel>
+
+                    <Button x:ConnectionId='8' x:Name="DisplaySongList"
+                    Width="220" Height="50"  BorderThickness="0" Background="Transparent"                              >
+                        <StackPanel Orientation="Horizontal">
+                            <FontIcon   Margin="5,0,0,0" FontFamily="Segoe MDL2 Assets" FontSize="16"  Glyph="&#59606;"/>
+                            <TextBlock Text="Songs"  Margin="25,0,0,0" FontSize="14" Width="200" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                    <Button x:ConnectionId='9' x:Name="AddSongButton"
+                        Width="220" 
+                        Height="50" 
+                        BorderThickness="0" 
+                        Background="Transparent" 
+                                                   >
+                        <StackPanel Orientation="Horizontal">
+                            <FontIcon Margin="5,0,0,0" FontFamily="Segoe MDL2 Assets" FontSize="16"  Glyph="&#59152;"/>
+                            <TextBlock Text="Add Song"  Margin="25,0,0,0"  Width="200" FontSize="14" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                    <Button x:ConnectionId='10' x:Name="PlayListsButton"
+                        Width="220" 
+                        Height="50" 
+                        BorderThickness="0" 
+                        Background="Transparent" 
+                                                     >
+                        <StackPanel Orientation="Horizontal">
+                            <FontIcon Margin="5,0,0,0" FontFamily="Segoe MDL2 Assets" FontSize="16"  Glyph="&#59959;"/>
+                            <TextBlock Text="Playlists"  Margin="25,0,0,0"  Width="100" FontSize="14" VerticalAlignment="Center" />
+                            <Button x:ConnectionId='13' x:Name="AddPlayListButton" Background="Transparent" BorderThickness="0"  Margin="5,0,0,0" Width="50" FontFamily="Segoe MDL2 Assets" FontSize="16"  Content="&#59152;"                                />
+                        </StackPanel>
+                    </Button>
+                    <ListView x:ConnectionId='11' x:Name ="PlayListNames" Visibility ="Collapsed"                                                                                                                      Height="300" ScrollViewer.VerticalScrollMode="Enabled" ScrollViewer.VerticalScrollBarVisibility ="Auto">
+                        <ListView.ItemTemplate>
+                            <DataTemplate                             >
+                                <TextBlock x:ConnectionId='12'                              FontSize="14" FontWeight="Bold" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+            </SplitView.Pane>
+            <StackPanel>
+
+                <MediaElement x:ConnectionId='16' x:Name="mediaPlayer"
+                    Width="400"
+                    AutoPlay="True"
+                    AreTransportControlsEnabled="True"/>
+                <TextBlock Text=" My Music" Style="{StaticResource SubheaderTextBlockStyle}"/>
+                <Pivot x:ConnectionId='17' RequestedTheme="Light" x:Name="rootPivot"                                                                                              >
+                    <PivotItem Header="Songs">
+                        <!--Pivot content goes here-->
+                        <GridView x:ConnectionId='25'  Name="SongGridView" IsItemClickEnabled="False"                                                                                                                                                                       >
+                            <!--<GridView Grid.Row="1" Name="SongGridView" Grid.Column="1" IsItemClickEnabled="True" ItemClick="SoundGridView_ItemClick" ItemsSource="{x:Bind vm.SongsList}" ScrollViewer.VerticalScrollBarVisibility="Visible">-->
+                            <GridView.ItemTemplate >
+                                <DataTemplate                         >
+                                    <StackPanel x:ConnectionId='26'  Margin ="10" Name="Display">
+                                        <Image x:ConnectionId='27' Margin="6" Width="100" Height="100"                              Stretch="Fill"></Image>
+                                        <TextBlock x:ConnectionId='28' TextAlignment="Center" FontSize="14"                       TextWrapping="Wrap" FontWeight="SemiBold"/>
+                                        <TextBlock x:ConnectionId='29' TextAlignment="Center"                                 TextWrapping="Wrap" Style="{StaticResource CaptionTextBlockStyle}" />
+                                        <TextBlock x:ConnectionId='30' TextAlignment="Center"                       TextWrapping="Wrap" Style="{StaticResource CaptionTextBlockStyle}" />
+                                        <!--<Button x:Name="PauseButton" Margin="5,0,0,0" Width ="50" Height="50" Visibility="Collapsed" 
+                                FontFamily="Segoe MDL2 Assets" FontSize="16"  Content="&#xE103;" Click="PauseButton_Click"/>
+                                        <Button x:Name="PlayButton" Margin="5,0,0,0" Width ="50" Height="50" Visibility="Collapsed" 
+                                FontFamily="Segoe MDL2 Assets" FontSize="16"  Content="&#xE102;" Click="PlayButton_Click"/>
+                                        -->
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridView.ItemTemplate>
+                        </GridView>
+                    </PivotItem>
+                    <PivotItem x:ConnectionId='18' Name ="ItemPivotArtists" Header="Artist">
+                        <ListView x:ConnectionId='22' x:Name="listViewArtists" ItemsSource="{Binding Source={StaticResource artistsCVS}}"  Height="400" ScrollViewer.VerticalScrollMode="Enabled" ScrollViewer.VerticalScrollBarVisibility ="Auto" >
+                            <ListView.GroupStyle>
+                                <GroupStyle>
+                                    <GroupStyle.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Key}" Margin="0,30,0,0"/>
+                                        </DataTemplate>
+                                    </GroupStyle.HeaderTemplate>
+                                </GroupStyle>
+                            </ListView.GroupStyle>
+                            <ListView.ItemTemplate>
+                                <DataTemplate                          >
+                                    <!--<Border Background="{Binding Color}" Width="200" CornerRadius="10" HorizontalAlignment="Left">-->
+                                        <StackPanel Orientation="Horizontal" >
+                                        <Button x:ConnectionId='23' Name="AddToPlaylistBtnInPivot" Grid.Column="0" FontFamily="Segoe MDL2 Assets"  FontSize="20"  Content="&#59152;" Background="Transparent"                                       />
+                                        <Button x:ConnectionId='24'  Name="PlaySongBtnInPivot"  Grid.Column="1" FontFamily="Segoe MDL2 Assets" FontSize="20"  Content="&#xE102;" Background="Transparent"                                 />
+
+                                        <Border Width="40" Height="40" Margin=" 5,0,0,0">
+                                                <Image Source="{Binding CoverImage}" Stretch="UniformToFill"/>
+                                            </Border>
+                                            
+                                        <TextBlock Text="{Binding Album}" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" TextWrapping="NoWrap" Margin="9.6,0"/>
+                                        <TextBlock Text="{Binding Title}" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" TextWrapping="NoWrap" Margin="9.6,0"/>
+                                        </StackPanel>
+                                    <!--</Border>-->
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+
+                    </PivotItem>
+
+                    <PivotItem Header="Albums">
+                        <ListView x:ConnectionId='19' x:Name="listViewAlbum" ItemsSource="{Binding Source={StaticResource albumsCVS}}"  Height="400" ScrollViewer.VerticalScrollMode="Enabled" ScrollViewer.VerticalScrollBarVisibility ="Auto" >
+                            <ListView.GroupStyle>
+                                <GroupStyle>
+                                    <GroupStyle.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Key}" Margin="0,30,0,0"/>
+                                        </DataTemplate>
+                                    </GroupStyle.HeaderTemplate>
+                                </GroupStyle>
+                            </ListView.GroupStyle>
+                            <ListView.ItemTemplate>
+                                <DataTemplate                          >
+                                  
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Button x:ConnectionId='20' Name="AddToPlaylistBtnInPivot" Grid.Column="0" FontFamily="Segoe MDL2 Assets"  FontSize="20"  Content="&#59152;" Background="Transparent"                                       />
+                                        <Button x:ConnectionId='21'  Name="PlaySongBtnInPivot"  Grid.Column="1" FontFamily="Segoe MDL2 Assets" FontSize="20"  Content="&#xE102;" Background="Transparent"                                 />
+
+                                        <Border Width="40" Height="40" Margin=" 5,0,0,0">
+                                            <Image Source="{Binding CoverImage}" Stretch="UniformToFill"/>
+                                        </Border>
+
+                                        <TextBlock Text="{Binding ShortArtistName}" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" TextWrapping="NoWrap" Margin="9.6,0"/>
+                                        <TextBlock Text="{Binding Title}" VerticalAlignment="Center" Style="{StaticResource BodyTextBlockStyle}" TextWrapping="NoWrap" Margin="9.6,0"/>
+                                    </StackPanel>
+                                
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+
+                    </PivotItem>
+                    <!--<PivotItem Name=" PivotItemPlayList" Header="PlayList">
+                        <StackPanel>
+                            <TextBlock Name="playListName" Text="PLayList Name "> </TextBlock>
+                            
+                            
+                        </StackPanel>
+                        
+                    </PivotItem>-->
+                </Pivot>
+            </StackPanel>
+        </SplitView>
+        <!-- Grid to hold Media element-->
+        <Grid Grid.Row="2" Grid.ColumnSpan="2" Background="Beige">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100" ></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Image x:ConnectionId='5'  Grid.Column="0" x:Name="MediaElementImage" Height="80" Width="80" HorizontalAlignment="Left" Stretch="Fill" ></Image>
+            <MediaElement x:ConnectionId='6' Grid.Column="1" x:Name="MyMediaElement" Stretch="Fill"    Margin="5,5,5,5" AutoPlay="False" AreTransportControlsEnabled="True"  >
+                <MediaElement.TransportControls>
+                    <MediaTransportControls IsCompact="True"
+                                            IsZoomButtonVisible="False"
+                                            IsFullWindowButtonVisible="False">
+
+                    </MediaTransportControls>
+                </MediaElement.TransportControls>
+            </MediaElement>
+        </Grid>
+        <!-- End Grid Media Element-->
+
+
+
+
+
+    </Grid>
+</Page>
+
